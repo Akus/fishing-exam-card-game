@@ -1,0 +1,35 @@
+{
+  "name": "fishing-exam-card-game",
+  "version": "1.0.0",
+  "description": "Interactive quiz game for Hungarian fishing exam preparation",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx live-server .",
+    "build": "echo 'No build process needed for this static site'",
+    "test": "echo 'No tests available'"
+  },
+  "keywords": [
+    "fishing",
+    "exam",
+    "quiz",
+    "hungarian",
+    "education",
+    "game",
+    "interactive"
+  ],
+  "author": "Akos",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "serve": "^14.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akus/fishing-exam-card-game.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Akus/fishing-exam-card-game/issues"
+  },
+  "homepage": "https://github.com/Akus/fishing-exam-card-game#readme"
+}

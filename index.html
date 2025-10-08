@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magyar Horgászvizsga Játék</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen active">
+            <div class="welcome-content">
+                <div class="logo">
+                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="40" r="40" fill="#2563eb"/>
+                        <path d="M20 45L40 25L60 45L50 55L40 45L30 55L20 45Z" fill="white"/>
+                        <circle cx="45" cy="35" r="3" fill="white"/>
+                    </svg>
+                </div>
+                <h1>Magyar Horgászvizsga</h1>
+                <p>Készülj fel a horgászvizsgára interaktív kvízjátékkal!</p>
+                <div class="stats-preview">
+                    <div class="stat">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Kérdés</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">4</span>
+                        <span class="stat-label">Kategória</span>
+                    </div>
+                </div>
+                <button id="start-btn" class="btn btn-primary">Kezdés</button>
+            </div>
+        </div>
+
+        <!-- Category Selection -->
+        <div id="category-screen" class="screen">
+            <div class="category-content">
+                <h2>Válassz kategóriát</h2>
+                <div class="categories">
+                    <div class="category-card" data-category="fish-names">
+                        <div class="category-icon">🐟</div>
+                        <h3>Halnevek</h3>
+                        <p>Hazai halak felismerése és nevei</p>
+                    </div>
+                    <div class="category-card" data-category="closed-seasons">
+                        <div class="category-icon">🚫</div>
+                        <h3>Tilalmi idők</h3>
+                        <p>Mikor nem fogható az egyes halfaj</p>
+                    </div>
+                    <div class="category-card" data-category="minimum-weights">
+                        <div class="category-icon">⚖️</div>
+                        <h3>Méretkorlátok</h3>
+                        <p>Minimális fogható méretek</p>
+                    </div>
+                    <div class="category-card" data-category="daily-limits">
+                        <div class="category-icon">📊</div>
+                        <h3>Napi limitek</h3>
+                        <p>Maximális napi fogási mennyiség</p>
+                    </div>
+                </div>
+                <button id="back-to-welcome" class="btn btn-secondary">Vissza</button>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="screen">
+            <div class="quiz-header">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="quiz-info">
+                    <span id="question-counter">1/10</span>
+                    <span id="category-title">Halnevek</span>
+                </div>
+            </div>
+            
+            <div class="quiz-content">
+                <div class="question-container">
+                    <h2 id="question-text">Melyik hal látható a képen?</h2>
+                    <div id="question-image" class="question-image"></div>
+                </div>
+                
+                <div class="answers-container">
+                    <div class="answers" id="answers"></div>
+                </div>
+            </div>
+            
+            <div class="quiz-footer">
+                <button id="quit-quiz" class="btn btn-secondary">Kilépés</button>
+                <div class="timer" id="timer">30</div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="results-content">
+                <div class="results-icon" id="results-icon">🎉</div>
+                <h2 id="results-title">Gratulálok!</h2>
+                <div class="score-display">
+                    <span id="final-score">8/10</span>
+                    <span class="score-label">helyes válasz</span>
+                </div>
+                <div class="score-percentage" id="score-percentage">80%</div>
+                
+                <div class="results-breakdown">
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Válaszolt kérdések:</span>
+                        <span class="breakdown-value" id="answered-count">10</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Helyes válaszok:</span>
+                        <span class="breakdown-value" id="correct-count">8</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Hibás válaszok:</span>
+                        <span class="breakdown-value" id="wrong-count">2</span>
+                    </div>
+                </div>
+                
+                <div class="results-actions">
+                    <button id="play-again" class="btn btn-primary">Újra játék</button>
+                    <button id="choose-category" class="btn btn-secondary">Új kategória</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
