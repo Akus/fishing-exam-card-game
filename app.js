@@ -2,13 +2,7 @@ class FishingQuizGame {
     constructor() {
         this.currentScreen = 'welcome';
         this.currentCategory = null;
-        this.currentQuesti                img.onerror = () => {
-                    // Only update if this is still the current question
-                    if (this.currentQuestions[this.currentQuestionIndex] === question) {
-                        imageContainer.classList.remove('loading');
-                        imageContainer.innerHTML = '<span style="font-size: 4rem; color: #ef4444;">📷</span><p style="color: #6b7280; margin-top: 10px;">Kép nem található</p>';
-                    }
-                };= [];
+        this.currentQuestions = [];
         this.currentQuestionIndex = 0;
         this.score = 0;
         this.timeLeft = 30;
@@ -156,8 +150,11 @@ class FishingQuizGame {
                     }
                 };
                 img.onerror = () => {
-                    imageContainer.classList.remove('loading');
-                    imageContainer.innerHTML = '<span style="font-size: 4rem; color: #ef4444;">�</span><p style="color: #6b7280; margin-top: 10px;">Kép nem található</p>';
+                    // Only update if this is still the current question
+                    if (this.currentQuestions[this.currentQuestionIndex] === question) {
+                        imageContainer.classList.remove('loading');
+                        imageContainer.innerHTML = '<span style="font-size: 4rem; color: #ef4444;">📷</span><p style="color: #6b7280; margin-top: 10px;">Kép nem található</p>';
+                    }
                 };
                 imageContainer.appendChild(img);
             }
@@ -166,7 +163,7 @@ class FishingQuizGame {
             imageContainer.innerHTML = `<span style="font-size: 4rem;">${question.image}</span>`;
         }
         
-        // Display answer options
+        // Display answer options with improved event handling
         const answersContainer = document.getElementById('answers');
         answersContainer.innerHTML = '';
         
@@ -180,13 +177,15 @@ class FishingQuizGame {
                 e.preventDefault();
                 e.stopPropagation();
                 
-                // Prevent multiple clicks
-                if (answerElement.dataset.clicked === 'true') {
+                // Prevent multiple clicks - check if any answer has been selected
+                const allOptions = document.querySelectorAll('.answer-option');
+                const alreadyAnswered = Array.from(allOptions).some(opt => opt.dataset.clicked === 'true');
+                
+                if (alreadyAnswered) {
                     return;
                 }
                 
-                // Mark as clicked to prevent multiple selections
-                const allOptions = document.querySelectorAll('.answer-option');
+                // Mark all options as clicked to prevent multiple selections
                 allOptions.forEach(opt => opt.dataset.clicked = 'true');
                 
                 this.selectAnswer(index);
@@ -201,7 +200,7 @@ class FishingQuizGame {
     }
     
     selectAnswer(selectedIndex) {
-        // Stop timer
+        // Stop timer immediately
         this.stopTimer();
         
         const question = this.currentQuestions[this.currentQuestionIndex];
@@ -313,6 +312,10 @@ class FishingQuizGame {
     
     timeUp() {
         this.stopTimer();
+        
+        // Prevent any further clicks
+        const allOptions = document.querySelectorAll('.answer-option');
+        allOptions.forEach(opt => opt.dataset.clicked = 'true');
         
         // Mark as wrong answer
         this.questionsAnswered++;

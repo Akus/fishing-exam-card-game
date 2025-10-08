@@ -1,0 +1,21 @@
+Halfaj Kifogható halak
+mérettartománya
+Naponta kifogható
+mennyisége
+(db vagy kg)
+csuka legalább 40 cm 3 db
+balin legalább 40 cm 3 db
+sügér legalább 15 cm 3 kg
+süllő legalább 30 cm 3 db
+kősüllő legalább 25 cm 3 db
+garda legalább 20 cm 3 kg
+domolykó legalább 25 cm 3 kg
+jászkeszeg legalább 20 cm 3 kg
+szilvaorrú keszeg legalább 20 cm 3 kg
+paduc legalább 20 cm 3 kg
+márna legalább 40 cm 3 db
+ponty legalább 30 cm 3 db
+compó legalább 25 cm 3 db
+harcsa legalább 60 cm 3 db
+sebes pisztráng legalább 22 cm 3 db
+menyhal legalább 25 cm 3 kg
