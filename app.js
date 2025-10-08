@@ -315,25 +315,19 @@ class FishingQuizGame {
         
         // Prevent any further clicks
         const allOptions = document.querySelectorAll('.answer-option');
-        allOptions.forEach(opt => opt.dataset.clicked = 'true');
+        allOptions.forEach(opt => {
+            opt.dataset.clicked = 'true';
+            opt.style.pointerEvents = 'none';
+        });
         
         // Mark as wrong answer
         this.questionsAnswered++;
         this.wrongAnswers++;
         
-        // Show correct answer
-        const question = this.currentQuestions[this.currentQuestionIndex];
-        const answerOptions = document.querySelectorAll('.answer-option');
-        answerOptions.forEach((option, index) => {
-            option.style.pointerEvents = 'none';
-            if (index === question.correct) {
-                option.classList.add('correct');
-            }
-        });
-        
+        // Move to next question immediately (no delay needed since we're not showing the answer)
         setTimeout(() => {
             this.nextQuestion();
-        }, 2000);
+        }, 500);
     }
     
     stopTimer() {
