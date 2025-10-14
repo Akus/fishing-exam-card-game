@@ -10,6 +10,7 @@ class FishingQuizGame {
         this.questionsAnswered = 0;
         this.correctAnswers = 0;
         this.wrongAnswers = 0;
+        this.wrongAnswersDetails = []; // Track wrong answers with details
         this.imageCache = new Map();
         
         this.init();
@@ -74,6 +75,10 @@ class FishingQuizGame {
         document.getElementById('choose-category').addEventListener('click', () => {
             this.showScreen('category');
         });
+        
+        document.getElementById('show-wrong-answers').addEventListener('click', () => {
+            this.toggleWrongAnswers();
+        });
     }
     
     showScreen(screenName) {
@@ -95,6 +100,7 @@ class FishingQuizGame {
         this.questionsAnswered = 0;
         this.correctAnswers = 0;
         this.wrongAnswers = 0;
+        this.wrongAnswersDetails = [];
         
         // Update category title
         const categoryTitles = {
@@ -172,22 +178,13 @@ class FishingQuizGame {
             answerElement.className = 'answer-option';
             answerElement.textContent = option;
             
-            // Use onclick with prevention of multiple clicks
-            answerElement.onclick = (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                // Prevent multiple clicks - check if any answer has been selected
-                const allOptions = document.querySelectorAll('.answer-option');
-                const alreadyAnswered = Array.from(allOptions).some(opt => opt.dataset.clicked === 'true');
-                
-                if (alreadyAnswered) {
-                    return;
-                }
-                
-                // Mark all options as clicked to prevent multiple selections
-                allOptions.forEach(opt => opt.dataset.clicked = 'true');
-                
+            // Add debugging
+            console.log(`Creating answer option ${index}: "${option}"`);
+            
+            // Ultra-simple click handler for debugging
+            answerElement.onclick = () => {
+                console.log(`CLICK DETECTED! Answer ${index}: "${option}"`);
+                alert(`You clicked answer ${index}: "${option}"`);
                 this.selectAnswer(index);
             };
             
@@ -200,6 +197,7 @@ class FishingQuizGame {
     }
     
     selectAnswer(selectedIndex) {
+        console.log('selectAnswer called with index:', selectedIndex);
         // Stop timer immediately
         this.stopTimer();
         
@@ -213,6 +211,14 @@ class FishingQuizGame {
             this.correctAnswers++;
         } else {
             this.wrongAnswers++;
+            // Track wrong answer details
+            this.wrongAnswersDetails.push({
+                question: question.question,
+                image: question.image,
+                correctAnswer: question.options[question.correct],
+                userAnswer: question.options[selectedIndex],
+                explanation: question.explanation || 'Nincs magyarázat.'
+            });
         }
         
         // Visual feedback
@@ -269,7 +275,70 @@ class FishingQuizGame {
             resultsTitle.textContent = 'Gyakorolj még!';
         }
         
+        // Show wrong answers button if there are any wrong answers
+        const showWrongAnswersBtn = document.getElementById('show-wrong-answers');
+        const wrongAnswersSection = document.getElementById('wrong-answers-section');
+        
+        if (this.wrongAnswersDetails.length > 0) {
+            showWrongAnswersBtn.style.display = 'inline-block';
+            this.displayWrongAnswers();
+        } else {
+            showWrongAnswersBtn.style.display = 'none';
+            wrongAnswersSection.style.display = 'none';
+        }
+        
         this.showScreen('results');
+    }
+    
+    displayWrongAnswers() {
+        const wrongAnswersList = document.getElementById('wrong-answers-list');
+        wrongAnswersList.innerHTML = '';
+        
+        this.wrongAnswersDetails.forEach((wrongAnswer, index) => {
+            const wrongAnswerItem = document.createElement('div');
+            wrongAnswerItem.className = 'wrong-answer-item';
+            
+            wrongAnswerItem.innerHTML = `
+                <div class="wrong-answer-header">
+                    <span class="wrong-answer-number">${index + 1}.</span>
+                    <span class="wrong-answer-question">${wrongAnswer.question}</span>
+                </div>
+                ${wrongAnswer.image ? `<div class="wrong-answer-image">
+                    <img src="${wrongAnswer.image}" alt="Hal képe" />
+                </div>` : ''}
+                <div class="wrong-answer-details">
+                    <div class="answer-comparison">
+                        <div class="user-answer">
+                            <span class="answer-label">Te válaszod:</span>
+                            <span class="answer-value incorrect">${wrongAnswer.userAnswer}</span>
+                        </div>
+                        <div class="correct-answer">
+                            <span class="answer-label">Helyes válasz:</span>
+                            <span class="answer-value correct">${wrongAnswer.correctAnswer}</span>
+                        </div>
+                    </div>
+                    <div class="answer-explanation">
+                        <span class="explanation-label">Magyarázat:</span>
+                        <span class="explanation-text">${wrongAnswer.explanation}</span>
+                    </div>
+                </div>
+            `;
+            
+            wrongAnswersList.appendChild(wrongAnswerItem);
+        });
+    }
+    
+    toggleWrongAnswers() {
+        const wrongAnswersSection = document.getElementById('wrong-answers-section');
+        const showWrongAnswersBtn = document.getElementById('show-wrong-answers');
+        
+        if (wrongAnswersSection.style.display === 'none') {
+            wrongAnswersSection.style.display = 'block';
+            showWrongAnswersBtn.textContent = 'Hibás válaszok elrejtése';
+        } else {
+            wrongAnswersSection.style.display = 'none';
+            showWrongAnswersBtn.textContent = 'Hibás válaszok megtekintése';
+        }
     }
     
     restartQuiz() {
@@ -323,6 +392,16 @@ class FishingQuizGame {
         // Mark as wrong answer
         this.questionsAnswered++;
         this.wrongAnswers++;
+        
+        // Track wrong answer details for timeout
+        const question = this.currentQuestions[this.currentQuestionIndex];
+        this.wrongAnswersDetails.push({
+            question: question.question,
+            image: question.image,
+            correctAnswer: question.options[question.correct],
+            userAnswer: 'Időtúllépés',
+            explanation: question.explanation || 'Nincs magyarázat.'
+        });
         
         // Move to next question immediately (no delay needed since we're not showing the answer)
         setTimeout(() => {

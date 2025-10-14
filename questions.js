@@ -146,7 +146,7 @@ const questionsDatabase = {
         },
         {
             question: "Melyik halfajnak nincs tilalmi ideje?",
-            image: "fish_pictures/kárász.jpg",
+            image: "�️",
             options: ["Balin", "Amúr", "Kárász", "Bodorka"],
             correct: 2,
             explanation: "A kárásznak nincs tilalmi ideje, egész évben fogható."
