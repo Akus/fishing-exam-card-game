@@ -221,7 +221,7 @@ const questionsDatabase = {
             question: "Mekkora a compó minimális mérete?",
             image: "fish_pictures/compó.jpg",
             options: ["25 cm", "30 cm", "35 cm", "20 cm"],
-            correct: 1,
+            correct: 0,
             explanation: "A compó minimális mérete 30 cm."
         },
         {
