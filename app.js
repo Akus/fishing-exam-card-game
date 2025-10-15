@@ -178,13 +178,17 @@ class FishingQuizGame {
             answerElement.className = 'answer-option';
             answerElement.textContent = option;
             
-            // Add debugging
-            console.log(`Creating answer option ${index}: "${option}"`);
-            
-            // Ultra-simple click handler for debugging
+            // Proper click handler without debugging
             answerElement.onclick = () => {
-                console.log(`CLICK DETECTED! Answer ${index}: "${option}"`);
-                alert(`You clicked answer ${index}: "${option}"`);
+                // Check if already answered to prevent multiple clicks
+                if (answerElement.dataset.clicked === 'true') {
+                    return;
+                }
+                
+                // Mark all current question's options as clicked
+                const currentOptions = answersContainer.querySelectorAll('.answer-option');
+                currentOptions.forEach(opt => opt.dataset.clicked = 'true');
+                
                 this.selectAnswer(index);
             };
             
@@ -197,7 +201,6 @@ class FishingQuizGame {
     }
     
     selectAnswer(selectedIndex) {
-        console.log('selectAnswer called with index:', selectedIndex);
         // Stop timer immediately
         this.stopTimer();
         
